@@ -119,7 +119,7 @@ class ListaDoble:
             elementos.append(str(actual.dato))
             actual = actual.siguiente
 
-        return " <=> ".join
+        return " <=> ".join(elementos)
 
 
 lista = ListaDoble()
@@ -132,7 +132,7 @@ print(lista)
 lista.insertar_inicio(40)
 print(lista)
 
-lista.recorre_adelante()
+lista.recorrer_adelante()
 lista.recorrer_atras()
 
 print(f"Tamaño de la lista: {len(lista)}")
@@ -146,7 +146,7 @@ def sumar(self, nodo = None):
     return sumar(nodo.siguiente) + nodo.dato
 #buscar de manera recursiva
 
-def buscar(self, nodo=None, dato,primera_llamada=True):
+def buscar(self, nodo=None, dato=None, primera_llamada=True):
 
     if primera_llamada:
         nodo = self.cabeza
@@ -172,8 +172,8 @@ print(ult_digito(15033))
 #busqueda binaria
 
 def busqueda_binaria(lista,num,inicio,fin):
-    if inicio > fin
-    return -1 
+    if inicio > fin:
+        return -1 
 
 #permutaciones
 
@@ -199,6 +199,7 @@ def permutaciones(lista):
 
 
 def fibonacci(n): #se llama dos veces
+    pass
 
 
 
