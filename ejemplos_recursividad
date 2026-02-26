@@ -1,0 +1,78 @@
+class Nodo:
+    def __init__(self, nombre, documento, tipo_atencion):
+        self.nombre = nombre
+        self.documento = documento
+        self.tipo_atencion = tipo_atencion
+        self.siguiente = None
+
+class ListaPacientes:
+    def __init__(self):
+        self.cabeza = None
+    
+    def agregar_paciente_normal(self, nombre, documento):
+        """Agrega un paciente normal al final de la lista"""
+        nuevo_nodo = Nodo(nombre, documento, "Normal")
+        
+        if self.cabeza is None:
+            self.cabeza = nuevo_nodo
+        else:
+            actual = self.cabeza
+            while actual.siguiente is not None:
+                actual = actual.siguiente
+            actual.siguiente = nuevo_nodo
+    
+    def agregar_paciente_emergencia(self, nombre, documento):
+        """Agrega un paciente de emergencia al inicio de la lista"""
+        nuevo_nodo = Nodo(nombre, documento, "Emergencia")
+        nuevo_nodo.siguiente = self.cabeza
+        self.cabeza = nuevo_nodo
+    
+    def mostrar_pacientes(self):
+        """Muestra la lista completa de pacientes (recursivo)"""
+        def mostrar_recursivo(nodo, posicion=1):
+            if nodo is None:
+                print("\n--- Fin de la lista ---")
+                return
+            
+            print(f"{posicion}. {nodo.nombre} | Doc: {nodo.documento} | Tipo: {nodo.tipo_atencion}")
+            mostrar_recursivo(nodo.siguiente, posicion + 1)
+        
+        if self.cabeza is None:
+            print("No hay pacientes en espera")
+        else:
+            print("\n=== PACIENTES EN ESPERA ===")
+            mostrar_recursivo(self.cabeza)
+    
+    def atender_paciente(self):
+        """Atiende (elimina) al primer paciente de la lista"""
+        if self.cabeza is None:
+            print("No hay pacientes en espera")
+            return None
+        
+        paciente = self.cabeza
+        print(f"\nAtendiendo a: {paciente.nombre} ({paciente.tipo_atencion})")
+        self.cabeza = self.cabeza.siguiente
+        return paciente
+
+# Ejemplo de uso
+if __name__ == "__main__":
+    clinica = ListaPacientes()
+    
+    clinica.agregar_paciente_normal("Juan Pérez", "12345678")
+    clinica.agregar_paciente_normal("María García", "87654321")
+    clinica.agregar_paciente_emergencia("Carlos Menéndez", "11111111")
+    clinica.agregar_paciente_normal("Ana López", "22222222")
+    clinica.agregar_paciente_emergencia("Roberto Silva", "33333333")
+    
+    clinica.mostrar_pacientes()
+    clinica.atender_paciente()
+    clinica.mostrar_pacientes()
+    clinica.atender_paciente()
+    clinica.mostrar_pacientes()
+
+
+    ## Definicion de recurisividad: 
+    # La recursividad es una técnica de programación en la que una función se llama a sí misma para resolver un problema.
+    # En el ejemplo anterior, la función `mostrar_recursivo` se llama a sí misma para mostrar cada paciente en la lista.
+    # La función toma un nodo como argumento y muestra su información, luego llama a sí misma con el siguiente nodo hasta que llega al final de la lista (cuando el nodo es None). Esto permite recorrer la lista de pacientes de manera eficiente y clara.
+    

@@ -137,6 +137,95 @@ lista.recorrer_atras()
 
 print(f"Tamaño de la lista: {len(lista)}")
 print(lista.buscar(40))
+#forma recursiva
+def sumar(self, nodo = None):
+    if nodo is None:
+        nodo = self.cabeza
+    if nodo.siguiente is None:
+       return 0
+    return sumar(nodo.siguiente) + nodo.dato
+#buscar de manera recursiva
+
+def buscar(self, nodo=None, dato,primera_llamada=True):
+
+    if primera_llamada:
+        nodo = self.cabeza
+    if nodo is None:
+        return False
+    if nodo.dato == dato:
+        return True
+    return self.buscar(nodo.siguiente,dato, False)#
+
+
+        
+
+#Sacar el ultimo digito de un numero --> %10 = 0
+
+def ult_digito(numero):
+    if numero < 10:
+        return numero
+    return (numero %10 )+ult_digito(numero//10)
+
+print(ult_digito(15033))
+
+
+#busqueda binaria
+
+def busqueda_binaria(lista,num,inicio,fin):
+    if inicio > fin
+    return -1 
+
+#permutaciones
+
+def permutaciones(lista):
+    if len(lista) <= 1:
+        return lista
+
+    resultado = []
+
+    for i in range(len(lista)):
+
+        elemento = lista[i]
+
+        resto = lista[ :1] + lista[i+1:]
+
+        for perm in permutaciones(resto):
+            resultado.append([elemento]+ perm)
+
+    return resultado #
+
+
+    #Recursion en cola (Tail recursion)
+
+
+def fibonacci(n): #se llama dos veces
 
 
 
+def fibonacci_tail(n, actual = 0,siguiente = 1): # Se llama solo una vez (n --> veces)
+    if n == 0:
+        return actual
+    return fibonacci_tail(n-1, siguiente, actual + siguiente)
+
+def suma_lista(lista, acumulado = 0):
+        if len(lista) == 0:
+            return acumulado
+        return  suma_lista(lista[1:], lista[0]+ acumulado)
+
+def potencia(base, exp, resultado = 1):
+    if exp == 0:
+        return resultado
+
+
+    return potencia( base,exp -1,resultado * base)
+    
+    
+
+
+
+
+
+
+
+
+    

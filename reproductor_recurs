@@ -1,0 +1,394 @@
+class Cancion:
+    def __init__(self, nombre, duracion):
+        self.nombre = nombre
+        self.duracion = duracion
+
+
+class Reproductor:
+    def __init__(self):
+        self.lista = [] # guarda las canciones
+        self.indice = 0  # posicion de la cancion en la que suena
+
+    def esta_vacia(self):
+        return len(self.lista) == 0
+
+#Funciones del reproductor:
+#Añadir cancion:
+
+    def agregar_cancion(self, nombre, duracion):
+        cancion = Cancion(nombre, duracion)
+        self.lista.append(cancion)
+
+    def reproducir(self):
+        if not self.lista:
+            print("No hay canciones")
+            return
+        actual = self.lista[self.indice]
+        print (f"Reproduciendo: {actual.nombre} ({actual.duracion}min)") ##
+
+    def siguiente(self):
+        if self.indice < len(self.lista) - 1: #ultimo indice que es el valido
+            self.indice += 1
+        else:
+            print("Ya estas en la ultima cancion ")
+
+        self.reproducir()
+
+    def anterior(self):
+        if self.indice > 0:
+            self.indice -= 1
+        else:
+             print("Devolviendo hacia la anterior cancion")
+
+        self.reproducir()
+
+
+    def mostrar(self):
+        if self.esta_vacia():
+            print("Lista vacía.")
+            return
+
+        print("\n--- Lista de canciones ---")
+        for i, cancion in enumerate(self.lista):
+            marca = " -> " if i == self.indice else " . "
+            print(f"{marca} {i + 1}. {cancion.nombre} ({cancion.duracion} min)")
+
+reproductor = Reproductor()
+
+def menu(rep):
+    print("\n--- MENÚ REPRODUCTOR ---") 
+    print("1. Agregar canción")
+    print("2. Reproducir canción actual")
+    print("3. Siguiente canción")
+    print("4. Canción anterior")
+    print("5. Mostrar lista de canciones")
+    print("6. Salir")
+
+    opcion = input("Seleccione una opción: ")
+
+    if opcion == "1":
+        nombre = input("Nombre de la canción: ")
+        duracion = input("Duración (min): ")
+        rep.agregar_cancion(nombre, duracion)
+        return menu(rep)
+
+    elif opcion == "2":
+        rep.reproducir()
+        return menu(rep)
+
+    elif opcion == "3":
+        rep.siguiente()
+        return menu(rep)
+
+    elif opcion == "4":
+        rep.anterior()
+        return menu(rep)
+
+    elif opcion == "5":
+        rep.mostrar()
+        return menu(rep)
+
+    elif opcion == "6":
+        print("Saliendo del reproductor...")
+        return
+
+    else:
+        print("Opción inválida")#
+        return menu(rep)
+
+# Inicio recursivo del menú
+menu(reproductor)
+
+
+
+"""
+
+
+CONTEXTO:
+---------
+Una startup te ha contratado para implementar un sistema de gestión de tareas.
+Debes diseñar e implementar el sistema usando listas enlazadas.
+Cada tarea tiene una prioridad del 1 (baja) al 5 (urgente).
+
+INSTRUCCIONES:
+--------------
+1. Diseñar la clase Nodo (Tarea) con los atributos necesarios
+2. Diseñar la clase Lista (ListaTareas) con los métodos requeridos
+3. Usar RECURSIVIDAD en los métodos donde se indique
+4. No usar listas de Python [], solo tu estructura de nodos
+5. Tiempo: 90 minutos
+
+═══════════════════════════════════════════════════════════════════════════════
+REQUERIMIENTOS DEL SISTEMA
+═══════════════════════════════════════════════════════════════════════════════
+
+PUNTO 1 (1.0): DISEÑO DE ESTRUCTURAS
+-------------------------------------
+Diseña las clases necesarias:
+
+a) Clase NODO (Tarea):
+   - Debe almacenar: descripción, prioridad (1-5), estado (completada o no)
+   - Debe poder enlazarse con otra tarea
+   
+b) Clase LISTA (ListaTareas):
+   - Debe mantener referencia al inicio de la lista
+   - Las tareas deben mantenerse ORDENADAS por prioridad (mayor primero)
+
+
+PUNTO 2 (1.0): AGREGAR TAREA ORDENADA - RECURSIVO
+-------------------------------------------------
+Implementa un método para agregar una nueva tarea.
+- La tarea debe insertarse en la posición correcta según su prioridad
+- Mayor prioridad va primero
+- OBLIGATORIO usar recursividad
+
+Ejemplo:
+    Si la lista tiene prioridades [5, 3, 1] y agregas prioridad 4
+    Debe quedar [5, 4, 3, 1]
+
+
+PUNTO 3 (0.75): CONTAR PENDIENTES - RECURSIVO
+---------------------------------------------
+Implementa un método que cuente las tareas NO completadas
+que tengan cierta prioridad.
+- OBLIGATORIO usar recursividad
+
+Ejemplo:
+    contar_pendientes(5) retorna cuántas tareas urgentes hay sin completar
+
+
+PUNTO 4 (1.0): OBTENER URGENTES - RECURSIVO
+-------------------------------------------
+Implementa un método que retorne una NUEVA lista con las tareas
+de prioridad 4 o 5 que NO estén completadas.
+- OBLIGATORIO usar recursividad
+- No modificar la lista original
+
+Ejemplo:
+    urgentes = lista.obtener_urgentes()
+    # Nueva lista solo con tareas urgentes pendientes
+
+
+PUNTO 5 (1.25): LIMPIAR COMPLETADAS - RECURSIVO
+-----------------------------------------------
+Implementa un método que elimine TODAS las tareas completadas.
+- OBLIGATORIO usar recursividad
+- Modificar la lista original
+
+Ejemplo:
+    Antes:  [✓]Tarea1 -> [○]Tarea2 -> [✓]Tarea3 -> [○]Tarea4
+    Después: [○]Tarea2 -> [○]Tarea4
+
+# PUNTO 1a: Clase Nodo (Tarea)
+# TODO: Diseñar e implementar
+
+class Nodo:
+    def __init__(self, descripcion, prioridad, completada=False):
+        self.descripcion = descripcion
+        self.prioridad = prioridad
+        self.completada = completada
+        self.siguiente = None
+
+# PUNTO 1b: Clase Lista (ListaTareas)
+# TODO: Diseñar e implementar con los métodos de los puntos 2-5
+
+class ListaTareas:
+    def __init__(self):
+        self.inicio = None
+
+    def agregar(self, descripcion, prioridad):
+        nuevo = Nodo(descripcion, prioridad)
+        self.inicio = self.agregar_recursivo(self.inicio, nuevo)
+
+    def agregar_recursivo(self, actual, nuevo):
+        if actual is None or nuevo.prioridad > actual.prioridad:
+            nuevo.siguiente = actual
+            return nuevo
+        
+        actual.siguiente = self.agregar_recursivo(actual.siguiente, nuevo)
+        return actual
+    
+    def contar_pendientes(self, prioridad):
+        return self.contar_recursivo(self.inicio, prioridad)
+
+    def contar_recursivo(self, nodo, prioridad):
+        if nodo is None:
+            return 0
+        
+        contador = 0
+        if nodo.prioridad == prioridad and not nodo.completada:
+            contador = 1
+        
+        return contador + self.contar_recursivo(nodo.siguiente, prioridad)
+
+    def obtener_urgentes(self):
+        nueva_lista = ListaTareas()
+        nueva_lista.inicio = self.obtener_urgentes_rec(self.inicio)
+        return nueva_lista
+
+    def obtener_urgentes_rec(self, nodo):
+        if nodo is None:
+            return None
+        
+        siguiente_filtrado = self.obtener_urgentes_rec(nodo.siguiente)
+        
+        if nodo.prioridad >= 4 and not nodo.completada:
+            nuevo = Nodo(nodo.descripcion, nodo.prioridad, nodo.completada)
+            nuevo.siguiente = siguiente_filtrado
+            return nuevo
+        
+        return siguiente_filtrado
+
+    def limpiar_completadas(self):
+        self.inicio = self.limpiar_recursivo(self.inicio)
+
+    def limpiar_recursivo(self, nodo):
+        if nodo is None:
+            return None
+        
+        nodo.siguiente = self.limpiar_recursivo(nodo.siguiente)
+        
+        if nodo.completada:
+            return nodo.siguiente
+        
+        return nodo
+    
+    def mostrar(self):
+        actual = self.inicio
+        while actual:
+            estado = "✓" if actual.completada else "o"
+            print(f"[{estado}] {actual.descripcion} (P{actual.prioridad})")
+            actual = actual.siguiente
+
+    def completar(self, descripcion):
+        self.completar_recursivo(self.inicio, descripcion)
+
+    def completar_recursivo(self, nodo, descripcion):
+        if nodo is None:
+            return
+        
+        if nodo.descripcion == descripcion:
+            nodo.completada = True
+            return
+        
+        self.completar_recursivo(nodo.siguiente, descripcion)
+
+# ═══════════════════════════════════════════════════════════════════════════════
+# CÓDIGO DE PRUEBA - NO MODIFICAR
+# (Descomenta cuando tengas tu implementación lista)
+# ═══════════════════════════════════════════════════════════════════════════════
+
+
+if __name__ == "__main__":
+    print("=" * 60)
+    print("         PRUEBAS DEL SISTEMA DE TAREAS")
+    print("=" * 60)
+    
+    # Crear lista de tareas
+    mis_tareas = ListaTareas()
+    
+    # Agregar tareas (deben quedar ordenadas por prioridad)
+    mis_tareas.agregar("Comprar leche", 2)
+    mis_tareas.agregar("Estudiar para parcial", 5)
+    mis_tareas.agregar("Llamar al médico", 4)
+    mis_tareas.agregar("Ver serie", 1)
+    mis_tareas.agregar("Entregar proyecto", 5)
+    mis_tareas.agregar("Hacer ejercicio", 3)
+    
+    print("\\n📋 Lista de tareas (ordenada por prioridad):")
+    mis_tareas.mostrar()  # Implementa este método para visualizar
+    print("   Esperado orden de prioridades: 5, 5, 4, 3, 2, 1")
+    
+    # Contar pendientes
+    print("\\n🔢 Tareas urgentes (prioridad 5):", mis_tareas.contar_pendientes(5))
+    print("   Esperado: 2")
+    
+    # Marcar algunas como completadas (implementa un método para esto)
+    # mis_tareas.completar("Comprar leche")
+    # mis_tareas.completar("Ver serie")
+    # mis_tareas.completar("Estudiar para parcial")
+    
+    # Obtener urgentes
+    print("\\n🚨 Tareas urgentes pendientes:")
+    urgentes = mis_tareas.obtener_urgentes()
+    urgentes.mostrar()
+    
+    # Limpiar completadas
+    print("\\n🗑️ Eliminando tareas completadas...")
+    mis_tareas.limpiar_completadas()
+    mis_tareas.mostrar()
+"""
+
+
+"""
+
+# PUNTO 1a: Clase Nodo (Pagina)
+class Nodo:
+    def __init__(self, url, titulo, tiempo):
+        self.url = url
+        self.titulo = titulo
+        self.tiempo = tiempo
+        self.siguiente = None
+
+
+# PUNTO 1b: Clase Lista (Historial)
+class Historial:
+    def __init__(self):
+        self.inicio = None
+
+    def visitar(self, url, titulo, tiempo):
+        nuevo = Nodo(url, titulo, tiempo)
+        nuevo.siguiente = self.inicio
+        self.inicio = nuevo
+
+    def tiempo_total(self):
+        return self.tiempo_total_rec(self.inicio)
+
+    def tiempo_total_rec(self, nodo):
+        if nodo is None:
+            return 0
+        return nodo.tiempo + self.tiempo_total_rec(nodo.siguiente)
+
+    def buscar_por_dominio(self, dominio):
+        nueva_lista = Historial()
+        nueva_lista.inicio = self.buscar_rec(self.inicio, dominio)
+        return nueva_lista
+
+    def buscar_rec(self, nodo, dominio):
+        if nodo is None:
+            return None
+        
+        siguiente_filtrado = self.buscar_rec(nodo.siguiente, dominio)
+        
+        if dominio in nodo.url:
+            nuevo = Nodo(nodo.url, nodo.titulo, nodo.tiempo)
+            nuevo.siguiente = siguiente_filtrado
+            return nuevo
+        
+        return siguiente_filtrado
+
+    def eliminar_rapidas(self, segundos):
+        self.inicio = self.eliminar_rapidas_rec(self.inicio, segundos)
+
+    def eliminar_rapidas_rec(self, nodo, segundos):
+        if nodo is None:
+            return None
+        
+        nodo.siguiente = self.eliminar_rapidas_rec(nodo.siguiente, segundos)
+        
+        if nodo.tiempo < segundos:
+            return nodo.siguiente
+        
+        return nodo
+
+    def mostrar(self):
+        actual = self.inicio
+        while actual:
+            print(f"📄 {actual.titulo}")
+            print(f"   URL: {actual.url}")
+            print(f"   ⏱️  {actual.tiempo}s")
+            actual = actual.siguiente
+"""
+
+
+
